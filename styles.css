@@ -8,7 +8,7 @@ ul { list-style: none; }
 /* ---------- Tokens ---------- */
 :root {
   --white: #FFFFFF;
-  --black: #CA2121;
+  --black: #000000;
   --font-display: 'Montserrat', sans-serif;
   --font-body: 'Raleway', sans-serif;
   --max-width: 1100px;
@@ -55,15 +55,15 @@ h1, h2, h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem var(--gap);
+  padding: 1.25rem var(--gap);
   max-width: var(--max-width);
   margin: 0 auto;
 }
-.nav__logo {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
+.nav__logo img {
+  height: 44px;
+  width: 44px;
+  border-radius: 10px;
+  object-fit: cover;
 }
 .nav__links {
   display: flex;
@@ -232,11 +232,6 @@ h1, h2, h3 {
   color: var(--black);
   border-color: var(--white);
 }
-.buy__note {
-  margin-top: 1.25rem;
-  font-size: 0.8rem;
-  opacity: 0.5;
-}
 
 /* ---------- Connect ---------- */
 .connect {
@@ -258,6 +253,11 @@ h1, h2, h3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
+}
+.connect__grid--two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 640px;
+  margin: 0 auto;
 }
 .connect__card {
   border: 1.5px solid var(--black);
@@ -300,6 +300,7 @@ h1, h2, h3 {
 @media (max-width: 800px) {
   .about__grid { grid-template-columns: 1fr; }
   .connect__grid { grid-template-columns: 1fr; }
+  .connect__grid--two { grid-template-columns: 1fr; }
   .nav__links { gap: 1.1rem; font-size: 0.8rem; }
 }
 
