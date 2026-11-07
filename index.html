@@ -1,130 +1,544 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fulaniturto — Learn Fulfulde, Learn Who You Are</title>
-  <meta name="description" content="Learn Fulfulde, the language of the Fulani people, and connect with your heritage. Join our courses, community, and culture." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fulaniturto — Learn Fulfulde, Learn Who You Are</title>
+<meta name="description" content="Learn Fulfulde, the language of the Fulani people, and connect with your heritage. Join our courses, community, and culture." />
+<meta name="theme-color" content="#14110f" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="Fulaniturto — Learn Fulfulde, Learn Who You Are" />
+<meta property="og:description" content="A guided path into the language, proverbs, and traditions of the Fulani people." />
+<meta property="og:image" content="hero.webp" />
+<meta property="og:type" content="website" />
 
-  <link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="logo.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+/* ============ TOKENS ============ */
+:root {
+  --ink: #14110f;
+  --ink-soft: #3a342e;
+  --cream: #f6f0e6;
+  --sand: #ece3d3;
+  --line: rgba(20, 17, 15, 0.12);
+  --ochre: #d98a2b;
+  --ochre-dark: #b86f1a;
+  --indigo: #141b2e;
+
+  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius: 20px;
+  --max: 1160px;
+  --nav-h: 76px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============ RESET ============ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, p, ul, blockquote, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
+
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 200; }
+.skip-link:focus { left: 8px; }
+
+.container { width: min(100% - 48px, var(--max)); margin-inline: auto; }
+
+/* ============ TYPE ============ */
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ochre-dark); margin-bottom: 18px; }
+.eyebrow--light { color: var(--ochre); }
+
+.section { padding: clamp(80px, 11vw, 150px) 0; }
+.section__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.08; letter-spacing: -0.02em; max-width: 16ch; }
+.section__title em { font-style: italic; color: var(--ochre-dark); }
+.section__title--light { color: #fff; }
+.section__title--light em { color: var(--ochre); }
+.section__lead { margin-top: 24px; max-width: 60ch; color: var(--ink-soft); font-size: 1.1rem; }
+
+/* ============ BUTTONS ============ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 15px 28px; border-radius: 999px; border: 1px solid transparent;
+  font-weight: 600; font-size: 15px; line-height: 1;
+  transition: transform .3s var(--ease), background .3s, box-shadow .3s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary { background: var(--ochre); color: var(--ink); }
+.btn--primary:hover { background: #e79a3c; box-shadow: 0 10px 30px -10px rgba(217,138,43,.7); }
+.btn--glass { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.35); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.btn--glass:hover { background: rgba(255,255,255,.22); }
+.btn--small { padding: 11px 22px; font-size: 14px; }
+.btn--large { padding: 20px 40px; font-size: 17px; }
+.btn--large svg { transition: transform .3s var(--ease); }
+.btn--large:hover svg { transform: translateX(4px); }
+
+/* ============ NAV ============ */
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--nav-h); transition: background .35s, box-shadow .35s; }
+.nav__inner { width: min(100% - 48px, var(--max)); height: 100%; margin-inline: auto; display: flex; align-items: center; justify-content: space-between; }
+.nav__logo { display: inline-flex; align-items: center; gap: 12px; font-family: var(--serif); font-weight: 600; font-size: 1.25rem; color: #fff; transition: color .3s; }
+.nav__logo img { height: 40px; width: auto; border-radius: 8px; }
+.nav__links { display: flex; align-items: center; gap: 30px; }
+.nav__links a:not(.btn) { color: rgba(255,255,255,.88); font-size: 15px; font-weight: 500; position: relative; transition: color .3s; }
+.nav__links a:not(.btn)::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); }
+.nav__links a:not(.btn):hover::after { transform: scaleX(1); }
+
+.nav.is-scrolled { background: rgba(246,240,230,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+.nav.is-scrolled .nav__logo { color: var(--ink); }
+.nav.is-scrolled .nav__links a:not(.btn) { color: var(--ink-soft); }
+
+.nav__toggle { display: none; width: 44px; height: 44px; background: none; border: 0; position: relative; }
+.nav__toggle span { position: absolute; left: 11px; right: 11px; height: 2px; background: #fff; border-radius: 2px; transition: transform .35s var(--ease), top .35s var(--ease), background .3s; }
+.nav__toggle span:nth-child(1) { top: 18px; }
+.nav__toggle span:nth-child(2) { top: 26px; }
+.nav.is-scrolled .nav__toggle span { background: var(--ink); }
+.nav--open .nav__toggle span:nth-child(1) { top: 22px; transform: rotate(45deg); }
+.nav--open .nav__toggle span:nth-child(2) { top: 22px; transform: rotate(-45deg); }
+
+/* ============ HERO ============ */
+.hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; color: #fff; overflow: hidden; background: var(--ink); }
+.hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transform: scale(1.06); animation: heroZoom 2.4s var(--ease) forwards; }
+@keyframes heroZoom { to { transform: scale(1); } }
+.hero__overlay { position: absolute; inset: 0; background:
+  linear-gradient(180deg, rgba(20,17,15,.55) 0%, rgba(20,17,15,.15) 35%, rgba(20,17,15,.85) 100%),
+  linear-gradient(90deg, rgba(20,17,15,.55) 0%, rgba(20,17,15,0) 70%); }
+.hero__content { position: relative; z-index: 2; width: min(100% - 48px, var(--max)); margin-inline: auto; padding: calc(var(--nav-h) + 60px) 0 clamp(64px, 10vh, 110px); }
+.hero__headline { font-family: var(--serif); font-weight: 400; font-size: clamp(2.8rem, 8vw, 6.4rem); line-height: 1.02; letter-spacing: -0.03em; max-width: 12ch; }
+.hero__headline em { font-style: italic; color: var(--ochre); }
+.hero__sub { margin-top: 28px; max-width: 52ch; font-size: clamp(1.02rem, 1.6vw, 1.2rem); color: rgba(255,255,255,.85); }
+.hero__actions { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 14px; }
+.hero__scroll { position: absolute; right: 32px; bottom: 36px; z-index: 2; width: 26px; height: 44px; border: 1.5px solid rgba(255,255,255,.6); border-radius: 20px; }
+.hero__scroll span { position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; background: #fff; border-radius: 3px; animation: scrollDot 1.8s infinite; }
+@keyframes scrollDot { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(16px); } }
+
+/* ============ TICKER ============ */
+.ticker { background: var(--ink); color: var(--cream); overflow: hidden; padding: 20px 0; }
+.ticker__track { display: flex; width: max-content; align-items: center; gap: 34px; animation: ticker 40s linear infinite; }
+.ticker__track span { font-family: var(--serif); font-style: italic; font-size: 1.5rem; white-space: nowrap; }
+.ticker__track i { width: 8px; height: 8px; background: var(--ochre); transform: rotate(45deg); flex: none; }
+@keyframes ticker { to { transform: translateX(-25%); } }
+
+/* ============ WHY IT MATTERS ============ */
+.cards { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 36px 32px 40px; transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -24px rgba(20,17,15,.25); border-color: transparent; }
+.card__num { display: block; font-family: var(--serif); font-style: italic; color: var(--ochre-dark); font-size: 1.1rem; margin-bottom: 40px; }
+.card h3 { font-family: var(--serif); font-weight: 600; font-size: 1.5rem; letter-spacing: -0.01em; margin-bottom: 12px; }
+.card p { color: var(--ink-soft); font-size: 1rem; }
+
+.quote { margin-top: 90px; padding-top: 56px; border-top: 1px solid var(--line); font-family: var(--serif); font-size: clamp(1.6rem, 3.6vw, 2.7rem); line-height: 1.25; letter-spacing: -0.015em; max-width: 26ch; }
+.quote cite { display: block; margin-top: 26px; font-family: var(--sans); font-style: normal; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ochre-dark); }
+
+/* ============ LEARN ============ */
+.learn { background: var(--sand); }
+.learn__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 8vw, 120px); align-items: start; }
+.learn__intro { position: sticky; top: calc(var(--nav-h) + 40px); }
+.learn__list li { display: flex; gap: 28px; padding: 34px 0; border-bottom: 1px solid var(--line); transition: padding-left .4s var(--ease); }
+.learn__list li:first-child { padding-top: 0; }
+.learn__list li:hover { padding-left: 12px; }
+.learn__list li > span { font-family: var(--serif); font-style: italic; color: var(--ochre-dark); font-size: 1.1rem; padding-top: 6px; }
+.learn__list h3 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.3rem, 2.4vw, 1.8rem); letter-spacing: -0.01em; }
+.learn__list p { margin-top: 6px; color: var(--ink-soft); }
+
+/* ============ TEACHER ============ */
+.teacher__grid { margin-top: 56px; display: grid; grid-template-columns: 420px 1fr; gap: clamp(32px, 6vw, 90px); align-items: center; }
+.teacher__photo { position: relative; aspect-ratio: 4 / 5; border-radius: var(--radius); overflow: hidden; background: linear-gradient(160deg, var(--ochre), var(--ochre-dark)); display: grid; place-items: center; }
+.teacher__photo::before { content: attr(data-initial); font-family: var(--serif); font-style: italic; font-size: 7rem; color: rgba(20,17,15,.55); }
+.teacher__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.teacher__name { font-family: var(--serif); font-weight: 600; font-size: clamp(1.8rem, 3.4vw, 2.6rem); letter-spacing: -0.02em; }
+.teacher__role { margin-top: 6px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ochre-dark); }
+.teacher__bio { margin-top: 24px; max-width: 52ch; color: var(--ink-soft); font-size: 1.1rem; }
+.teacher__tags { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+.teacher__tags li { padding: 9px 18px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; font-weight: 500; background: #fff; }
+
+/* ============ GALLERY ============ */
+.gallery { background: var(--sand); overflow: hidden; }
+.gallery__head { margin-bottom: 56px; }
+.gallery__marquee { display: flex; width: max-content; gap: 20px; animation: gallery 50s linear infinite; padding: 0 10px; }
+.gallery__marquee:hover { animation-play-state: paused; }
+.gallery__marquee img { height: clamp(240px, 32vw, 380px); width: auto; border-radius: var(--radius); object-fit: cover; flex: none; }
+@keyframes gallery { to { transform: translateX(-50%); } }
+
+/* ============ BUY ============ */
+.buy { position: relative; background: var(--indigo); color: #fff; text-align: center; padding: clamp(90px, 12vw, 160px) 0; overflow: hidden; }
+.buy__pattern { position: absolute; inset: 0; opacity: .08;
+  background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%);
+  background-size: 48px 48px; background-position: 0 0, 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, transparent 70%); mask-image: radial-gradient(ellipse at center, #000 0%, transparent 70%); }
+.buy__inner { position: relative; display: flex; flex-direction: column; align-items: center; }
+.buy .section__title { max-width: none; }
+.buy__sub { margin: 22px 0 44px; color: rgba(255,255,255,.75); max-width: 46ch; font-size: 1.1rem; }
+
+/* ============ CONNECT ============ */
+.connect__grid { margin-top: 56px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.connect__card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 44px 40px; min-height: 220px; justify-content: flex-end; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); transition: background .5s var(--ease), color .5s, transform .5s var(--ease); }
+.connect__card:hover { background: var(--ink); color: #fff; transform: translateY(-4px); }
+.connect__label { font-family: var(--serif); font-size: 2rem; letter-spacing: -0.02em; }
+.connect__desc { color: var(--ink-soft); transition: color .5s; }
+.connect__card:hover .connect__desc { color: rgba(255,255,255,.75); }
+.connect__arrow { position: absolute; top: 32px; right: 36px; font-size: 1.8rem; color: var(--ochre-dark); transition: transform .4s var(--ease), color .4s; }
+.connect__card:hover .connect__arrow { transform: translate(4px, -4px); color: var(--ochre); }
+
+/* ============ FOOTER ============ */
+.footer { background: var(--ink); color: rgba(246,240,230,.75); padding: 64px 0 40px; }
+.footer__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 40px; }
+.footer .nav__logo { color: var(--cream); }
+.footer__social { display: flex; gap: 12px; }
+.footer__social a { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; transition: background .3s, border-color .3s, color .3s; }
+.footer__social a:hover { background: var(--ochre); border-color: var(--ochre); color: var(--ink); }
+.footer__social svg { width: 18px; height: 18px; }
+.footer__tag { margin-top: 40px; font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 2.6vw, 1.8rem); color: var(--cream); }
+.footer__copy { margin-top: 36px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.12); font-size: 14px; }
+
+/* ============ REVEAL ============ */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.is-visible { opacity: 1; transform: none; }
+.cards .reveal:nth-child(2), .connect__grid .reveal:nth-child(2) { transition-delay: .1s; }
+.cards .reveal:nth-child(3) { transition-delay: .2s; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr; }
+  .learn__grid, .teacher__grid { grid-template-columns: 1fr; }
+  .learn__intro { position: static; }
+  .teacher__photo { max-width: 380px; }
+  .hero__scroll { display: none; }
+}
+@media (max-width: 860px) {
+  .nav__toggle { display: block; }
+  .nav__links { position: fixed; inset: var(--nav-h) 0 auto 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--cream); padding: 12px 24px 28px; border-bottom: 1px solid var(--line); transform: translateY(-12px); opacity: 0; pointer-events: none; transition: opacity .3s, transform .4s var(--ease); }
+  .nav--open .nav__links { opacity: 1; transform: none; pointer-events: auto; }
+  .nav__links a:not(.btn) { color: var(--ink); width: 100%; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+  .nav__links .btn { margin-top: 20px; width: 100%; padding: 16px; }
+  .nav--open { background: var(--cream); }
+  .nav--open .nav__logo { color: var(--ink); }
+  .nav--open .nav__toggle span { background: var(--ink); }
+}
+@media (max-width: 640px) {
+  .connect__grid { grid-template-columns: 1fr; }
+  .connect__card { min-height: 180px; padding: 36px 28px; }
+  .hero__actions .btn { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  .hero__bg { transform: none; }
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Skip link for accessibility -->
-  <a href="#main" class="skip-link">Skip to content</a>
+<a href="#main" class="skip-link">Skip to content</a>
 
-  <!-- NAV -->
-  <header class="nav">
-    <a href="#top" class="nav__logo">
-      <img src="logo.png" alt="Fulaniturto" />
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="nav__logo" aria-label="Fulaniturto home">
+      <img src="logo.png" alt="" />
+      <span>Fulaniturto</span>
     </a>
-    <nav class="nav__links" aria-label="Primary">
-      <a href="#about">About</a>
+
+    <nav class="nav__links" id="nav-links" aria-label="Primary">
+      <a href="#about">Why it matters</a>
+      <a href="#learn">Learn</a>
+      <a href="#teacher">Teacher</a>
+      <a href="#gallery" id="nav-gallery">Gallery</a>
       <a href="#connect">Connect</a>
-      <a href="#buy" class="nav__cta">Enroll</a>
+      <a href="#buy" class="btn btn--small btn--primary">Enroll</a>
     </nav>
-  </header>
 
-  <main id="main">
+    <button class="nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
 
-    <!-- HERO -->
-    <section id="top" class="hero">
-      <p class="hero__eyebrow">Fulfulde &middot; Pulaar &middot; Fulani Heritage</p>
-      <h1 class="hero__headline">
-        Learn Fulfulde.<br>
-        Learn who you are.
-      </h1>
-      <p class="hero__sub">
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section id="top" class="hero">
+    <img src="hero.webp" alt="Fulani man in traditional Gerewol ceremonial dress, hat, and face paint" class="hero__bg" />
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <p class="eyebrow eyebrow--light reveal">Fulfulde &middot; Pulaar &middot; Fulani Heritage</p>
+      <h1 class="hero__headline reveal">Learn Fulfulde.<br />Discover <em>a culture.</em></h1>
+      <p class="hero__sub reveal">
         A guided path into the language, proverbs, and traditions of the Fulani people —
         taught by someone who lives it, not just teaches it.
       </p>
-      <div class="hero__actions">
-        <a href="#buy" class="btn btn--primary">Start Learning</a>
-        <a href="#connect" class="btn btn--ghost">Talk to me first</a>
+      <div class="hero__actions reveal">
+        <a href="#buy" class="btn btn--primary">Start learning</a>
+        <a href="#connect" class="btn btn--glass">Talk to me first</a>
       </div>
-    </section>
-
-    <!-- WOVEN DIVIDER (signature motif) -->
-    <div class="woven-divider" aria-hidden="true">
-      <svg viewBox="0 0 800 40" preserveAspectRatio="none">
-        <path d="M0,20 L20,0 L40,20 L60,0 L80,20 L100,0 L120,20 L140,0 L160,20 L180,0 L200,20 L220,0 L240,20 L260,0 L280,20 L300,0 L320,20 L340,0 L360,20 L380,0 L400,20 L420,0 L440,20 L460,0 L480,20 L500,0 L520,20 L540,0 L560,20 L580,0 L600,20 L620,0 L640,20 L660,0 L680,20 L700,0 L720,20 L740,0 L760,20 L780,0 L800,20"
-          fill="none" stroke="#000000" stroke-width="1.5"/>
-        <path d="M0,20 L20,40 L40,20 L60,40 L80,20 L100,40 L120,20 L140,40 L160,20 L180,40 L200,20 L220,40 L240,20 L260,40 L280,20 L300,40 L320,20 L340,40 L360,20 L380,40 L400,20 L420,40 L440,20 L460,40 L480,20 L500,40 L520,20 L540,40 L560,20 L580,40 L600,20 L620,40 L640,20 L660,40 L680,20 L700,40 L720,20 L740,40 L760,20 L780,40 L800,20"
-          fill="none" stroke="#000000" stroke-width="1.5"/>
-      </svg>
     </div>
 
-    <!-- ABOUT -->
-    <section id="about" class="about">
-      <div class="about__grid">
-        <div class="about__text">
-          <h2>More than vocabulary.</h2>
-          <p>
-            Fulfulde carries the memory of a people who crossed the Sahel with their cattle,
-            their poetry, and their code of <em>Pulaaku</em>. Learning it is learning how to
-            greet an elder, how to tell a story, how to belong.
-          </p>
-          <p>
+    <a href="#about" class="hero__scroll" aria-label="Scroll down"><span></span></a>
+  </section>
+
+  <!-- ============ TICKER ============ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      <span>Fulfulde</span><i></i><span>Pulaar</span><i></i><span>Pulaaku</span><i></i><span>Gerewol</span><i></i><span>Jarama</span><i></i>
+      <span>Fulfulde</span><i></i><span>Pulaar</span><i></i><span>Pulaaku</span><i></i><span>Gerewol</span><i></i><span>Jarama</span><i></i>
+      <span>Fulfulde</span><i></i><span>Pulaar</span><i></i><span>Pulaaku</span><i></i><span>Gerewol</span><i></i><span>Jarama</span><i></i>
+      <span>Fulfulde</span><i></i><span>Pulaar</span><i></i><span>Pulaaku</span><i></i><span>Gerewol</span><i></i><span>Jarama</span><i></i>
+    </div>
+  </div>
+
+  <!-- ============ WHY IT MATTERS ============ -->
+  <section id="about" class="section">
+    <div class="container">
+      <p class="eyebrow reveal">Why it matters</p>
+      <h2 class="section__title reveal">More than <em>vocabulary.</em></h2>
+      <p class="section__lead reveal">
+        Fulfulde carries the memory of a people who crossed the Sahel with their cattle,
+        their poetry, and their code of <em>Pulaaku</em>. Learning it is learning how to
+        greet an elder, how to tell a story, how to belong.
+      </p>
+
+      <div class="cards">
+        <article class="card reveal">
+          <span class="card__num">01</span>
+          <h3>Spoken first</h3>
+          <p>Fulaniturto teaches Fulfulde the way it was passed down — through conversation, from greetings to fluency.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__num">02</span>
+          <h3>Rooted in culture</h3>
+          <p>Proverbs, oral tradition, and real cultural context sit alongside every lesson, so words never float free of meaning.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card__num">03</span>
+          <h3>Learn from a native</h3>
+          <p>Structured for anyone learning fresh, wherever in the world they are, with direct access to your teacher.</p>
+        </article>
+      </div>
+
+      <blockquote class="quote reveal">
+        Learning it is learning how to greet an elder, how to tell a story, how to belong.
+        <cite>The Fulaniturto way</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============ LEARN ============ -->
+  <section id="learn" class="section learn">
+    <div class="container learn__grid">
+      <div class="learn__intro">
+        <p class="eyebrow reveal">Inside the course</p>
+        <h2 class="section__title reveal">What you'll <em>learn.</em></h2>
+        <p class="section__lead reveal">Everything you need to go from your first greeting to real conversations.</p>
+      </div>
+
+      <ul class="learn__list">
+        <li class="reveal"><span>01</span><div><h3>Spoken Fulfulde</h3><p>From greetings to fluency.</p></div></li>
+        <li class="reveal"><span>02</span><div><h3>Proverbs &amp; oral tradition</h3><p>The wisdom behind the words.</p></div></li>
+        <li class="reveal"><span>03</span><div><h3>Live sessions &amp; recorded lessons</h3><p>Learn live, or at your own pace.</p></div></li>
+        <li class="reveal"><span>04</span><div><h3>Direct access to a native teacher</h3><p>Ask questions and get real answers.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ TEACHER ============ -->
+  <section id="teacher" class="section">
+    <div class="container">
+      <p class="eyebrow reveal">Behind Fulaniturto</p>
+      <h2 class="section__title reveal">Taught by someone who <em>lives it.</em></h2>
+
+      <div class="teacher__grid">
+        <!-- EDIT: change data-initial to the first letter of your name; add teacher.jpg to show your photo -->
+        <figure class="teacher__photo reveal" data-initial="F">
+          <img src="teacher.jpg" alt="Portrait of the Fulaniturto teacher" onerror="this.remove()" />
+        </figure>
+
+        <div class="reveal">
+          <!-- EDIT: put your real name and title -->
+          <h3 class="teacher__name">Your Name</h3>
+          <p class="teacher__role">Founder &amp; Fulfulde Teacher</p>
+          <p class="teacher__bio">
             Fulaniturto teaches Fulfulde the way it was passed down — through conversation,
-            proverbs, and real cultural context — structured for anyone learning it fresh,
-            wherever in the world they are.
+            proverbs, and real cultural context. Every lesson is built so you learn the language
+            and the people behind it.
           </p>
+          <ul class="teacher__tags">
+            <li>Spoken Fulfulde</li>
+            <li>Proverbs</li>
+            <li>Pulaaku</li>
+            <li>Live sessions</li>
+          </ul>
         </div>
-        <ul class="about__list">
-          <li><span>01</span> Spoken Fulfulde, from greetings to fluency</li>
-          <li><span>02</span> Fulani proverbs &amp; oral tradition</li>
-          <li><span>03</span> Live sessions &amp; recorded lessons</li>
-          <li><span>04</span> Direct access to a native teacher</li>
-        </ul>
       </div>
-    </section>
-
-    <div class="woven-divider" aria-hidden="true">
-      <svg viewBox="0 0 800 40" preserveAspectRatio="none">
-        <path d="M0,20 L20,0 L40,20 L60,0 L80,20 L100,0 L120,20 L140,0 L160,20 L180,0 L200,20 L220,0 L240,20 L260,0 L280,20 L300,0 L320,20 L340,0 L360,20 L380,0 L400,20 L420,0 L440,20 L460,0 L480,20 L500,0 L520,20 L540,0 L560,20 L580,0 L600,20 L620,0 L640,20 L660,0 L680,20 L700,0 L720,20 L740,0 L760,20 L780,0 L800,20"
-          fill="none" stroke="#000000" stroke-width="1.5"/>
-        <path d="M0,20 L20,40 L40,20 L60,40 L80,20 L100,40 L120,20 L140,40 L160,20 L180,40 L200,20 L220,40 L240,20 L260,40 L280,20 L300,40 L320,20 L340,40 L360,20 L380,40 L400,20 L420,40 L440,20 L460,40 L480,20 L500,40 L520,20 L540,40 L560,20 L580,40 L600,20 L620,40 L640,20 L660,40 L680,20 L700,40 L720,20 L740,40 L760,20 L780,40 L800,20"
-          fill="none" stroke="#000000" stroke-width="1.5"/>
-      </svg>
     </div>
+  </section>
 
-    <!-- BUY / ENROLL -->
-    <section id="buy" class="buy">
-      <h2>Ready to start?</h2>
-      <p>One click gets you into the course. Payment link opens securely off-site.</p>
-      <a href="https://paystack.shop/pay/lxb5a-4-5f" class="btn btn--primary btn--large" target="_blank" rel="noopener noreferrer">Click Here to Buy</a>
-    </section>
+  <!-- ============ GALLERY (hides itself if no photos load) ============ -->
+  <section id="gallery" class="section gallery" hidden>
+    <div class="container gallery__head">
+      <p class="eyebrow reveal">Our world</p>
+      <h2 class="section__title reveal">Fulani life, <em>up close.</em></h2>
+    </div>
+    <div class="gallery__marquee" id="gallery-track"></div>
+  </section>
 
-    <!-- CONNECT -->
-    <section id="connect" class="connect">
-      <h2>Or talk to me directly</h2>
-      <p class="connect__sub">Questions about the course, your level, or just want to say salaam? Reach out.</p>
+  <!-- ============ ENROLL ============ -->
+  <section id="buy" class="buy">
+    <div class="buy__pattern" aria-hidden="true"></div>
+    <div class="container buy__inner">
+      <p class="eyebrow eyebrow--light reveal">Enroll</p>
+      <h2 class="section__title section__title--light reveal">Ready to <em>start?</em></h2>
+      <p class="buy__sub reveal">One click gets you into the course. Payment link opens securely off-site.</p>
+      <a href="https://paystack.shop/pay/lxb5a-4-5f" class="btn btn--primary btn--large reveal" target="_blank" rel="noopener noreferrer">
+        Click here to buy
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
 
-      <div class="connect__grid connect__grid--two">
-        <a class="connect__card" href="https://wa.me/2348026636134" target="_blank" rel="noopener noreferrer">
+  <!-- ============ CONNECT ============ -->
+  <section id="connect" class="section">
+    <div class="container">
+      <p class="eyebrow reveal">Get in touch</p>
+      <h2 class="section__title reveal">Or talk to me <em>directly.</em></h2>
+      <p class="section__lead reveal">Questions about the course, your level, or just want to say salaam? Reach out.</p>
+
+      <div class="connect__grid">
+        <a class="connect__card reveal" href="https://wa.me/2348026636134" target="_blank" rel="noopener noreferrer">
           <span class="connect__label">WhatsApp</span>
           <span class="connect__desc">Message me for a personal chat</span>
+          <span class="connect__arrow" aria-hidden="true">&#8599;</span>
         </a>
-
-        <a class="connect__card" href="mailto:fulaniturto@gmail.com">
+        <a class="connect__card reveal" href="mailto:fulaniturto@gmail.com">
           <span class="connect__label">Email</span>
           <span class="connect__desc">fulaniturto@gmail.com</span>
+          <span class="connect__arrow" aria-hidden="true">&#8599;</span>
         </a>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>Fulaniturto — Teaching Fulfulde, preserving Pulaaku.</p>
-    <p>&copy; <span id="year"></span> Fulaniturto. All rights reserved.</p>
-  </footer>
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <a href="#top" class="nav__logo" aria-label="Back to top">
+        <img src="logo.png" alt="" />
+        <span>Fulaniturto</span>
+      </a>
 
-  <script src="script.js"></script>
+      <!-- EDIT: replace YOUR_HANDLE with your real social links, or delete any you don't use -->
+      <div class="footer__social">
+        <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="https://tiktok.com/@YOUR_HANDLE" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 3c.3 2.6 2.1 4.4 5 4.6"/></svg>
+        </a>
+        <a href="https://facebook.com/YOUR_HANDLE" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <p class="footer__tag">Teaching Fulfulde, preserving Pulaaku.</p>
+    <p class="footer__copy">&copy; <span id="year"></span> Fulaniturto. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const nav = document.getElementById("nav");
+  const toggle = document.getElementById("nav-toggle");
+  const links = document.getElementById("nav-links");
+
+  /* Nav background on scroll */
+  const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 40);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  /* Mobile menu */
+  const setMenu = (open) => {
+    nav.classList.toggle("nav--open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  };
+  toggle.addEventListener("click", () => setMenu(!nav.classList.contains("nav--open")));
+  links.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+
+  /* Reveal on scroll */
+  const observeReveals = () => {
+    const items = document.querySelectorAll(".reveal:not(.is-visible)");
+    if (!("IntersectionObserver" in window)) {
+      items.forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    items.forEach((el) => io.observe(el));
+  };
+  observeReveals();
+
+  /* Gallery: uses gallery-1.jpg ... gallery-6.jpg if they exist */
+  const gallery = document.getElementById("gallery");
+  const track = document.getElementById("gallery-track");
+  const navGallery = document.getElementById("nav-gallery");
+  const files = [1, 2, 3, 4, 5, 6].map((n) => `gallery-${n}.jpg`);
+
+  const probe = (src) => new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(src);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+
+  Promise.all(files.map(probe)).then((results) => {
+    const ok = results.filter(Boolean);
+    if (!ok.length) {
+      gallery.remove();
+      if (navGallery) navGallery.remove();
+      return;
+    }
+    let set = [...ok];
+    while (set.length < 6) set = set.concat(ok);
+    const html = set.map((src) => `<img src="${src}" alt="Fulani culture and community" loading="lazy" />`).join("");
+    track.innerHTML = html + html;
+    gallery.hidden = false;
+    observeReveals();
+  });
+
+  /* Footer year */
+  document.getElementById("year").textContent = new Date().getFullYear();
+})();
+</script>
+
 </body>
 </html>
